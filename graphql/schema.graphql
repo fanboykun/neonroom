@@ -17,10 +17,3 @@ type User {
     updated_at: DateTime!
 }
 
-"create a type Post"
-
-"create a post mutation"
-
-"create a post subcribe"
-
-
