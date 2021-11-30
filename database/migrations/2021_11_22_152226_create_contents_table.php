@@ -15,7 +15,7 @@ class CreateContentsTable extends Migration
     {
         Schema::create('contents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade')->required();
+            // $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade')->required();
             $table->foreignId('schedule_id')->constrained('schedules')->onDelete('cascade')->onUpdate('cascade')->required();
             $table->longText('body')->required();
             $table->timestamps();

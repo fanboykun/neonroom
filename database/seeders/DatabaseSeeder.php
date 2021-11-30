@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(DayAndYearSeeder::class);
         $this->call(RoomSeeder::class);
+        $this->call(ScheduleSeeder::class);
     }
 }

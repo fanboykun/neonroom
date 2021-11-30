@@ -44,7 +44,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function ownedRoom()
+    public function ownedRooms()
     {
         return $this->hasMany(Room::class, 'lecturer_id', 'id');
     }

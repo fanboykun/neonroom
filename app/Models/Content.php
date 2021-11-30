@@ -13,7 +13,6 @@ class Content extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
         'schedule_id',
         'body',
     ];

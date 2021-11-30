@@ -17,7 +17,6 @@ class Room extends Model
         'year_id',
         'semester',
         'description',
-        'semester',
     ];
 
     public function lecturer()

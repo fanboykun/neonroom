@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Room;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,8 +20,25 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::get('users', function () {
-    return response()->json(['users' => \App\Models\User::all()]);
+Route::get('/users', function () {
+    return response()->json(['users' => \App\Models\User::with('rooms')->get()]);
 });
 
+Route::get('user/{user:id}/rooms', function (Request $request, User $user) {
+    return response()->json([
+        'rooms' => $user->load('rooms'),
+    ]);
+});
+
+Route::get('/rooms', function () {
+    return response()->json(['rooms' => \App\Models\Room::with(['year', 'days'])->get()]);
+});
+
+Route::get('/room/{room:id}', function (Room $room) {
+    return response()->json(['room' => $room->load(['year', 'days', 'users'])]);
+});
+
+Route::get('/user/{user:id}/ownroom', function (User $user) {
+    return response()->json(['rooms' => $user->load('ownedRooms')]);
+});
 

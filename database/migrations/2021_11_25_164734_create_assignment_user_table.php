@@ -16,6 +16,7 @@ class CreateAssignmentUserTable extends Migration
         Schema::create('assignment_user', function (Blueprint $table) {
             $table->foreignId('assignment_id')->constrained('assignments')->onDelete('cascade')->onUpdate('cascade')->required();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade')->required();
+            $table->longText('answer')->required();
             $table->primary(['assignment_id', 'user_id']);
             $table->timestamps();
         });

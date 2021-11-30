@@ -20,7 +20,7 @@ class CreateRoomsTable extends Migration
             $table->string('name')->required();
             $table->string('study')->required();
             $table->time('hour')->required();
-            $table->string('year_id')->nullable();
+            $table->foreignId('year_id')->nullable();
             $table->string('semester')->required();
             $table->longText('description')->nullable();
             $table->timestamps();
