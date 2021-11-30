@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSchedulesTable extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateSchedulesTable extends Migration
      */
     public function up()
     {
-        Schema::create('schedules', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade')->required();
-            $table->foreignId('room_id')->constrained('rooms')->onDelete('cascade')->onUpdate('cascade')->required();
-            $table->string('title')->required();
-            $table->boolean('type')->nullable();
-            $table->integer('meet_for')->nullable();
+            $table->foreignId('content_id')->constrained('contents')->onDelete('cascade')->onUpdate('cascade')->required();
+            $table->longText('body')->required();
             $table->timestamps();
         });
     }
@@ -32,7 +30,7 @@ class CreateSchedulesTable extends Migration
     public function down()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('schedules');
+        Schema::dropIfExists('comments');
         Schema::enableForeignKeyConstraints();
     }
 }

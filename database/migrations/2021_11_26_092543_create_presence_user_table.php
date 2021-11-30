@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSchedulesTable extends Migration
+class CreatePresenceUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateSchedulesTable extends Migration
      */
     public function up()
     {
-        Schema::create('schedules', function (Blueprint $table) {
-            $table->id();
+        Schema::create('presence_user', function (Blueprint $table) {
+            $table->foreignId('presence_id')->constrained('presences')->onDelete('cascade')->onUpdate('cascade')->required();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade')->required();
-            $table->foreignId('room_id')->constrained('rooms')->onDelete('cascade')->onUpdate('cascade')->required();
-            $table->string('title')->required();
-            $table->boolean('type')->nullable();
-            $table->integer('meet_for')->nullable();
-            $table->timestamps();
+            $table->dateTime('checked_at')->required();
+            $table->primary(['presence_id', 'user_id']);
         });
     }
 
@@ -32,7 +29,7 @@ class CreateSchedulesTable extends Migration
     public function down()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('schedules');
+        Schema::dropIfExists('presence_user');
         Schema::enableForeignKeyConstraints();
     }
 }

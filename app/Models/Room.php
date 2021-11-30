@@ -10,17 +10,33 @@ class Room extends Model
     use HasFactory;
 
     protected $fillable = [
+        'lecturer_id',
         'name',
-        'semester_id',
+        'study',
+        'hour',
+        'year_id',
+        'semester',
+        'description',
+        'semester',
     ];
 
-    function semester()
+    public function lecturer()
     {
-        return $this->belongsTo('App\Models\Semester');
+        return $this->belongsTo(User::class, 'lecturer_id');
     }
 
-    public function studies()
+    public function users()
     {
-        return $this->belongsToMany(Study::class)->using(Schedule::class)->withTimestamps();
+        return $this->belongsToMany(User::class)->withTimestamps();
+    }
+
+    public function days()
+    {
+        return $this->belongsToMany(Day::class);
+    }
+
+    public function year()
+    {
+        return $this->belongsTo(Year::class);
     }
 }

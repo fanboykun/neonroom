@@ -44,13 +44,28 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function semesters()
+    public function ownedRoom()
     {
-        return $this->belongsToMany(Semester::class)->using(Status::class)->withTimestamps();
+        return $this->hasMany(Room::class, 'lecturer_id', 'id');
     }
 
-    public function courses()
+    public function rooms()
     {
-        return $this->hasOne(Schedule::class);
+        return $this->belongsToMany(Room::class)->withTimestamps();
+    }
+
+    public function assignments()
+    {
+        return $this->belogsToMany(Assignment::class)->withPivot('answer')->withTimestamps();
+    }
+
+    public function presences()
+    {
+        return $this->belongsToMany(Presence::class)->withPivot('checked_at');
+    }
+
+    public function appraisals()
+    {
+        return $this->hasMany(Appraisal::class);
     }
 }

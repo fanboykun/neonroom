@@ -4,18 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Content extends Model
+class Presence extends Model
 {
-    use InteractsWithMedia;
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
         'schedule_id',
-        'body',
+        'due_hour',
     ];
 
     public function schedule()
@@ -23,9 +19,8 @@ class Content extends Model
         return $this->belongsTo(Schedule::class);
     }
 
-    public function comments()
+    public function users()
     {
-        return $this->hasMany(Comment::class);
+        return $this->belongsToMany(User::class)->withPivot('checked_at');
     }
-
 }

@@ -15,12 +15,9 @@ class CreateContentsTable extends Migration
     {
         Schema::create('contents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('schedule_id')->constrained('schedules')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('title')->required();
-            $table->boolean('category')->nullable()->default(false);
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade')->required();
+            $table->foreignId('schedule_id')->constrained('schedules')->onDelete('cascade')->onUpdate('cascade')->required();
             $table->longText('body')->required();
-            $table->integer('meet_for')->nullable();
-            $table->timestamp('due_date')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +29,8 @@ class CreateContentsTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('contents');
+        Schema::enableForeignKeyConstraints();
     }
 }

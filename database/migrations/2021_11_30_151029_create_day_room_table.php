@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSemestersTable extends Migration
+class CreateDayRoomTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateSemestersTable extends Migration
      */
     public function up()
     {
-        Schema::create('semesters', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->required();
-            $table->foreignId('academic_year_id')->constrained('semesters')->onDelete('cascade')->onUpdate('cascade');
+        Schema::create('day_room', function (Blueprint $table) {
+            $table->foreignId('day_id');
+            $table->foreignId('room_id');
+            $table->primary(['day_id', 'room_id']);
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateSemestersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('semesters');
+        Schema::dropIfExists('day_room');
     }
 }
