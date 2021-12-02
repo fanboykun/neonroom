@@ -15,6 +15,8 @@ class CreateTasksTable extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+            $table->string('explanation');
+            $table->boolean('is_attachable')->default(false);
             $table->foreignId('schedule_id')->constrained('schedules')->cascadeOnDelete()->cascadeOnUpdate()->required();
             $table->dateTime('due_time')->nullable();
             $table->timestamps();

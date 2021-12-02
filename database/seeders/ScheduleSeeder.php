@@ -21,6 +21,7 @@ class ScheduleSeeder extends Seeder
                 'room_id' => $room->id,
                 'user_id' => $room->lecturer->id,
             ])->create();
+            
               //content
              $content = \App\Models\Content::factory()->state([
                 'schedule_id' => $schedule->id,

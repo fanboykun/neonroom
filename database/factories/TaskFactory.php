@@ -14,6 +14,8 @@ class TaskFactory extends Factory
     public function definition()
     {
         return [
+            'explanation' => $this->faker->sentence,
+            'is_attachable' => $this->faker->boolean,
             'due_time' => $this->faker->dateTimeBetween('+1 days', '+3 days'),
         ];
     }

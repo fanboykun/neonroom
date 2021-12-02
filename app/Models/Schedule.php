@@ -21,6 +21,11 @@ class Schedule extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
+    }
+
     public function task()
     {
         return $this->hasOne(Task::class);
