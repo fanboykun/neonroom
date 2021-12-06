@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\RoomController;
+use App\Http\Requests\CreateRoomRequest;
 use App\Models\Room;
 use App\Models\Schedule;
 use App\Models\Task;
@@ -26,15 +28,12 @@ Route::get('/users', function () {
     return response()->json(['users' => \App\Models\User::with('rooms')->get()]);
 });
 
-Route::get('/user/{user}/rooms', function (User $user) {
-    return response()->json([
-        'rooms' => $user->load('rooms'),
-    ]);
-});
-
-Route::get('/room/{room}', function (Room $room) {
-    return response()->json(['room' => $room->load(['year', 'days', 'users'])]);
-});
+Route::get('rooms', [RoomController::class, 'index']);
+Route::post('room', [RoomController::class, 'store']);
+Route::get('/room/{room}', [RoomController::class, 'show']);
+Route::put('/room/{room}', [RoomController::class, 'update']);
+Route::delete('/room/{room}', [RoomController::class, 'destroy']);
+Route::get('/room/{room}/member', [RoomController::class, 'members']);
 
 Route::get('/room/{room}/schedules', function (Room $room) {
     $schedules = $room->load('schedules');
@@ -67,4 +66,3 @@ Route::get('/task/{task}', function (Task $task) {
 Route::get('/user/{user}/ownroom', function (User $user) {
     return response()->json(['rooms' => $user->load('ownedRooms')]);
 });
-
