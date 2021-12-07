@@ -15,10 +15,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(13)->create();
-
-        $this->call(DayAndYearSeeder::class);
-        $this->call(RoomSeeder::class);
-        $this->call(ScheduleSeeder::class);
+        //check if the app is run on production or development
+        if (env('APP_ENV') === 'production') {
+            $this->call(DayAndYearSeeder::class);
+        } else {
+            User::factory(13)->create();
+            $this->call(DayAndYearSeeder::class);
+            $this->call(RoomSeeder::class);
+            $this->call(ScheduleSeeder::class);
+        }
     }
 }

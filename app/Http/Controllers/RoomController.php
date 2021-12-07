@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateRoomRequest;
 use App\Http\Requests\UpdateRoomRequest;
 use App\Models\Room;
+use App\Models\User;
 use Illuminate\Support\Facades\Http;
 
 class RoomController extends Controller
@@ -76,5 +77,10 @@ class RoomController extends Controller
     public function members(Room $room)
     {
         return response()->json(['members' => $room->users]);
+    }
+
+    public function ownRoom(User $user)
+    {
+        return response()->json(['rooms' => $user->load('ownedRooms')]);
     }
 }

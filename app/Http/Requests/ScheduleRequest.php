@@ -24,8 +24,8 @@ class ScheduleRequest extends FormRequest
     public function rules()
     {
         return [
-            'room_id' => 'required|integer|exists:App\Models\Room,id',
-            'user_id' => 'required|integer|exists:App\Models\User,id',
+            // 'room_id' => 'required|integer|exists:App\Models\Room,id',
+            'user_id' => 'nullable|integer|exists:App\Models\User,id',
             'title' => 'required|string|max:255',
             'type' => 'required|boolean',
             'meet_for' => 'required|integer',

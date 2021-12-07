@@ -25,7 +25,7 @@ class CommentRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:App\Models\User,id',
-            'content_id' => 'required|exists:App\Models\Content,id',
+            // 'content_id' => 'required|exists:App\Models\Content,id',
             'body' => 'required|string',
         ];
     }

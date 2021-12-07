@@ -1,12 +1,13 @@
 <?php
 
+use App\Http\Controllers\AppraisalController;
+use App\Http\Controllers\AssignmentContoller;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ContentController;
+use App\Http\Controllers\PresenceController;
 use App\Http\Controllers\RoomController;
-use App\Http\Requests\CreateRoomRequest;
-use App\Models\Room;
-use App\Models\Schedule;
-use App\Models\Task;
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,45 +25,62 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::get('/users', function () {
-    return response()->json(['users' => \App\Models\User::with('rooms')->get()]);
-});
-
+//room
 Route::get('rooms', [RoomController::class, 'index']);
 Route::post('room', [RoomController::class, 'store']);
 Route::get('/room/{room}', [RoomController::class, 'show']);
 Route::put('/room/{room}', [RoomController::class, 'update']);
 Route::delete('/room/{room}', [RoomController::class, 'destroy']);
 Route::get('/room/{room}/member', [RoomController::class, 'members']);
+Route::get('/user/{user}/ownroom', [RoomController::class, 'ownRoom']);
 
-Route::get('/room/{room}/schedules', function (Room $room) {
-    $schedules = $room->load('schedules');
-    return response()->json([
-        'schedules' => $schedules,
-    ]);
-});
+//schedule
+Route::get('/room/{room}/schedules', [ScheduleController::class, 'index']);
+Route::post('/room/{room}/schedule', [ScheduleController::class, 'store']);
+Route::get('schedule/{schedule}', [ScheduleController::class, 'show']);
+Route::put('schedule/{schedule}', [ScheduleController::class, 'update']);
+Route::delete('schedule/{schedule}', [ScheduleController::class, 'destroy']);
 
-Route::get('/schedule/{schedule}', function (Schedule $schedule) {
-    $props = $schedule->load(['author', 'content', 'content.comments', 'task', 'presence']);
-    return response()->json([
-        'data' => $props,
-    ]);
-});
+//content
+Route::get('schedule/{schedule}/content', [ContentController::class, 'index']);
+Route::post('/schedule/{schedule}/content', [ContentController::class, 'store']);
+Route::get('/content/{content}', [ContentController::class, 'show']);
+Route::put('/content/{content}', [ContentController::class, 'update']);
+Route::delete('/content/{content}', [ContentController::class, 'destroy']);
 
-Route::get('/schedule/{schedule}/task', function (Schedule $schedule) {
-    $props = $schedule->load(['task', 'task.assignments']);
-    return response()->json([
-        'data' => $props,
-    ]);
-});
+//comment
+Route::post('/content/{content}/comment', [CommentController::class, 'store']);
+Route::put('/comment/{comment}', [CommentController::class, 'update']);
+Route::delete('/comment/{comment}', [CommentController::class, 'destroy']);
 
-Route::get('/task/{task}', function (Task $task) {
-    $props = $task->load(['assignments', 'assignments.users']);
-    return response()->json([
-        'data' => $props,
-    ]);
-});
+//task
+Route::get('/schedule/{schedule}/task', [TaskController::class, 'index']);
+Route::post('/schedule/{schedule}/task', [TaskController::class, 'store']);
+Route::get('/task/{task}', [TaskController::class, 'show']);
+Route::put('/task/{task}', [TaskController::class, 'update']);
+Route::delete('/task/{task}', [TaskController::class, 'destroy']);
 
-Route::get('/user/{user}/ownroom', function (User $user) {
-    return response()->json(['rooms' => $user->load('ownedRooms')]);
-});
+//assignment
+Route::get('/task/{task}/assignment', [AssignmentContoller::class, 'index']);
+Route::post('/task/{task}/assignment', [AssignmentContoller::class, 'store']);
+Route::get('/assignment/{assignment}', [AssignmentContoller::class, 'show']);
+Route::put('/assignment/{assignment}', [AssignmentContoller::class, 'update']);
+Route::delete('/assignment/{assignment}', [AssignmentContoller::class, 'destroy']);
+Route::post('/assignment/{assignment}/answer', [AssignmentContoller::class, 'answer']);
+
+//appraisal
+Route::get('/task/{task}/appraisal', [AppraisalController::class, 'index']);
+Route::post('/task/{task}/appraisal', [AppraisalController::class, 'store']);
+Route::get('/appraisal/{appraisal}', [AppraisalController::class, 'show']);
+Route::put('/appraisal/{appraisal}', [AppraisalController::class, 'update']);
+Route::delete('/appraisal/{appraisal}', [AppraisalController::class, 'destroy']);
+
+//presence
+Route::get('/schedule/{schedule}/presence', [PresenceController::class, 'index']);
+Route::post('/schedule/{schedule}/presence', [PresenceController::class, 'store']);
+Route::get('/presence/{presence}', [PresenceController::class, 'show']);
+Route::put('/presence/{presence}', [PresenceController::class, 'update']);
+Route::delete('/presence/{presence}', [PresenceController::class, 'destroy']);
+Route::post('/presence/{presence}/check', [PresenceController::class, 'check']);
+
+//attachment

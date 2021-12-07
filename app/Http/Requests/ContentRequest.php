@@ -24,7 +24,7 @@ class ContentRequest extends FormRequest
     public function rules()
     {
         return [
-            'schedule_id' => 'required|exists:App\Models\Schedule,id',
+            // 'schedule_id' => 'required|exists:App\Models\Schedule,id',
             'body' => 'required|string',
         ];
     }

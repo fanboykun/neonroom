@@ -24,9 +24,9 @@ class TaskRequest extends FormRequest
     public function rules()
     {
         return [
+            // 'schedule_id' => 'required|exists:App\Models\Schedule,id',
             'explanation' => 'required|string|max:255',
             'is_attachable' => 'required|boolean',
-            'schedule_id' => 'required|exists:App\Models\Schedule,id',
             'due_time' => 'reuqired|date_format:Y-m-d H:i:s',
         ];
     }

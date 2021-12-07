@@ -24,7 +24,7 @@ class AppraisalRequest extends FormRequest
     public function rules()
     {
         return [
-            'task_id' => 'required|exists:App\Models\Task,id',
+            // 'task_id' => 'required|exists:App\Models\Task,id',
             'user_id' => 'required|exists:App\Models\User,id',
             'value' => 'required|string',
         ];

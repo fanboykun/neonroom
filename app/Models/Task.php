@@ -10,9 +10,9 @@ class Task extends Model
     use HasFactory;
 
     protected $fillable = [
+        'schedule_id',
         'explanation',
         'is_attachable',
-        'schedule_id',
         'due_time',
     ];
 
