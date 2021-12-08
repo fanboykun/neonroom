@@ -15,12 +15,11 @@ class CreateSchedulesTable extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('study_id')->constrained('studies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('room_id')->constrained('rooms')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->date('day')->required();
-            $table->time('time')->required();
-            $table->primary(['id', 'study_id', 'room_id']);
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade')->required();
+            $table->foreignId('room_id')->constrained('rooms')->onDelete('cascade')->onUpdate('cascade')->required();
+            $table->string('title')->required();
+            $table->boolean('type')->nullable();
+            $table->integer('meet_for')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +31,8 @@ class CreateSchedulesTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('schedules');
+        Schema::enableForeignKeyConstraints();
     }
 }

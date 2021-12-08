@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,7 +10,6 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasRoles;
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -44,13 +42,28 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function semesters()
+    public function ownedRooms()
     {
-        return $this->belongsToMany(Semester::class)->using(Status::class)->withTimestamps();
+        return $this->hasMany(Room::class, 'lecturer_id', 'id');
     }
 
-    public function courses()
+    public function rooms()
     {
-        return $this->hasOne(Schedule::class);
+        return $this->belongsToMany(Room::class)->withTimestamps();
+    }
+
+    public function assignments()
+    {
+        return $this->belogsToMany(Assignment::class)->withPivot('answer')->withTimestamps();
+    }
+
+    public function presences()
+    {
+        return $this->belongsToMany(Presence::class)->withPivot('checked_at');
+    }
+
+    public function appraisals()
+    {
+        return $this->hasMany(Appraisal::class);
     }
 }

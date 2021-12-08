@@ -15,8 +15,14 @@ class CreateRoomsTable extends Migration
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
+            // $table->foreignId('lecturer_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade')->required();
+            $table->foreignId('lecturer_id')->nullable();
             $table->string('name')->required();
-            $table->foreignId('semester_id')->constrained('semesters')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('study')->required();
+            $table->time('hour')->required();
+            $table->foreignId('year_id')->nullable();
+            $table->string('semester')->required();
+            $table->longText('description')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +34,8 @@ class CreateRoomsTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('rooms');
+        Schema::enableForeignKeyConstraints();
     }
 }

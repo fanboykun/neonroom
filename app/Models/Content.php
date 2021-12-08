@@ -14,11 +14,7 @@ class Content extends Model
 
     protected $fillable = [
         'schedule_id',
-        'title',
-        'category',
         'body',
-        'meet_for',
-        'due_date',
     ];
 
     public function schedule()
