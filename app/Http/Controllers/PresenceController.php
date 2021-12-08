@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ScheduleRequest;
+use App\Models\Appraisal;
+use App\Models\Presence;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 
 class PresenceController extends Controller
@@ -11,20 +15,22 @@ class PresenceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Schedule $schedule)
     {
-        //
+        $schedule->load(['presence', 'presence.users']);
+        return response()->json([
+            'presence' => $schedule->presence,
+        ]);
     }
-
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ScheduleRequest $request, Presence $presence)
     {
-        //
+
     }
 
     /**
